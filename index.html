@@ -1,0 +1,919 @@
+<!DOCTYPE html><html lang="ru"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIM-курсы | Онлайн-обучение Revit, Renga, AutoCAD, ArchiCAD</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background: #F7F8FA; color: #1F2937; }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 50%, #1A56DB 100%);
+        }
+
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sticky-header {
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .sticky-header.scrolled {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        .accent-btn {
+            background: linear-gradient(135deg, #1A56DB, #3B82F6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .accent-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26,86,219,0.4);
+        }
+
+        .outline-btn {
+            border: 2px solid rgba(255,255,255,0.4);
+            transition: all 0.2s ease;
+        }
+        .outline-btn:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .program-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: -0.5px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .faq-answer.open {
+            max-height: 300px;
+            padding-top: 12px;
+            padding-bottom: 4px;
+        }
+
+        .faq-chevron {
+            transition: transform 0.3s ease;
+        }
+        .faq-chevron.rotated {
+            transform: rotate(180deg);
+        }
+
+        .step-line {
+            position: absolute;
+            left: 24px;
+            top: 56px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #3B82F6, #E5E7EB);
+        }
+
+        .blob-bg {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 999px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            backdrop-filter: blur(4px);
+        }
+
+        .path-step {
+            position: relative;
+            padding-left: 40px;
+        }
+        .path-step::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid #3B82F6;
+            background: #fff;
+            z-index: 1;
+        }
+        .path-step::after {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 28px;
+            width: 2px;
+            height: calc(100% + 8px);
+            background: #D1D5DB;
+        }
+        .path-step:last-child::after {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.8rem !important; line-height: 1.2 !important; }
+            .trust-badges-row { flex-direction: column; gap: 8px; align-items: flex-start; }
+        }
+
+        .comparison-card {
+            border-left: 4px solid;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header" class="sticky-header fixed top-0 left-0 right-0 z-50 bg-transparent">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="#" class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-lg accent-btn flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <span id="logo-text" class="font-bold text-lg text-white">BIM-курсы</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8">
+            <a id="nav1" href="#programs" class="text-sm font-medium text-white opacity-80 hover:opacity-100 transition">Курсы</a>
+            <a id="nav2" href="#method" class="text-sm font-medium text-white opacity-80 hover:opacity-100 transition">Методология</a>
+            <a id="nav3" href="#expert" class="text-sm font-medium text-white opacity-80 hover:opacity-100 transition">Преподаватель</a>
+            <a id="nav4" href="#faq" class="text-sm font-medium text-white opacity-80 hover:opacity-100 transition">FAQ</a>
+        </nav>
+        <a href="#final-cta" id="header-cta" class="hidden md:inline-flex accent-btn text-white text-sm font-semibold px-5 py-2.5 rounded-lg">
+            Начать бесплатно
+        </a>
+        <button id="mobile-menu-btn" class="md:hidden text-white p-2" onclick="toggleMobileMenu()">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg border-t">
+        <div class="px-4 py-4 flex flex-col gap-3">
+            <a href="#programs" class="text-sm font-medium text-gray-700 py-2" onclick="closeMobileMenu()">Курсы</a>
+            <a href="#method" class="text-sm font-medium text-gray-700 py-2" onclick="closeMobileMenu()">Методология</a>
+            <a href="#expert" class="text-sm font-medium text-gray-700 py-2" onclick="closeMobileMenu()">Преподаватель</a>
+            <a href="#faq" class="text-sm font-medium text-gray-700 py-2" onclick="closeMobileMenu()">FAQ</a>
+            <a href="#final-cta" class="accent-btn text-white text-sm font-semibold px-5 py-2.5 rounded-lg text-center" onclick="closeMobileMenu()">Начать бесплатно</a>
+        </div>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero-gradient relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+    <div class="blob-bg" style="width:500px;height:500px;background:#3B82F6;top:-100px;right:-100px;"></div>
+    <div class="blob-bg" style="width:400px;height:400px;background:#1A56DB;bottom:-150px;left:-100px;"></div>
+    <div class="max-w-6xl mx-auto px-4 relative z-10">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 bg-white bg-opacity-10 backdrop-filter rounded-full px-4 py-1.5 mb-6">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                <span class="text-sm text-blue-200">Набор открыт — начните бесплатно</span>
+            </div>
+            <h1 class="hero-title text-white font-extrabold text-4xl md:text-5xl leading-tight mb-6">
+                Научитесь уверенно работать в&nbsp;BIM‑среде — через реальные строительные проекты
+            </h1>
+            <p class="text-blue-100 text-lg md:text-xl leading-relaxed mb-8 max-w-2xl">
+                Онлайн-курсы по Revit, Renga, AutoCAD и ArchiCAD. Авторская методика преподавателя с&nbsp;11‑летним стажем — от базового уровня до профессионального.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                <a href="#programs" class="accent-btn text-white font-semibold px-8 py-4 rounded-xl text-center text-lg">
+                    Смотреть каталог курсов
+                </a>
+                <a href="#final-cta" class="outline-btn text-white font-semibold px-8 py-4 rounded-xl text-center text-lg">
+                    Начать бесплатно
+                </a>
+            </div>
+            <div class="trust-badges-row flex flex-wrap gap-3">
+                <span class="trust-badge">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 12l10-5 10 5-10 5z" transform="scale(0.67)"></path><path d="M6 12v5c3 3 9 3 12 0v-5" transform="scale(0.67)"></path></svg>
+                    Сертификат
+                </span>
+                <span class="trust-badge">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v10a3 3 0 00-3-3H2z" transform="scale(0.67)"></path><path d="M22 3h-6a4 4 0 00-4 4v10a3 3 0 013-3h7z" transform="scale(0.67)"></path></svg>
+                    Реальные проекты
+                </span>
+                <span class="trust-badge">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" transform="scale(0.67)"></path><circle cx="8" cy="5" r="2.7" transform="scale(0.67)"></circle></svg>
+                    Личная проверка работ
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent" style="background: linear-gradient(to top, #F7F8FA, transparent);"></div>
+</section>
+
+<!-- ПРОБЛЕМА -->
+<section class="py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Знакомо?</h2>
+            <p class="text-gray-500 text-lg max-w-xl mx-auto">Если узнали себя хотя бы в одном пункте — вы в правильном месте</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in border-l-4 border-red-400">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg width="24" height="24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Кнопки знаю — процесса не&nbsp;понимаю</h3>
+                        <p class="text-gray-500 leading-relaxed">Вы умеете строить стены в Revit, но не понимаете, как собрать полноценный проект. Каждая новая задача — стресс и гугл.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in border-l-4 border-orange-400">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg width="24" height="24" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Учился по YouTube — знания как&nbsp;лоскутное одеяло</h3>
+                        <p class="text-gray-500 leading-relaxed">Десятки роликов позади, но системной картины нет. Одни функции знаете хорошо, другие — будто впервые видите.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in border-l-4 border-yellow-400">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg width="24" height="24" fill="none" stroke="#EAB308" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">На работе требуют BIM — а&nbsp;я&nbsp;не&nbsp;уверен</h3>
+                        <p class="text-gray-500 leading-relaxed">Компания переходит на BIM, от вас ждут результат, а вы не понимаете, с чего начать и как не наделать ошибок.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in border-l-4 border-blue-400">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg width="24" height="24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Хочу зарабатывать больше, но&nbsp;навыков не хватает</h3>
+                        <p class="text-gray-500 leading-relaxed">Видите вакансии с зарплатой выше, но там требуют уверенное владение BIM — а у вас пробелы.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- РЕШЕНИЕ -->
+<section class="py-16 md:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center mb-14 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-5">Обучение через реальную практику,<br>а&nbsp;не абстрактные упражнения</h2>
+            <p class="text-gray-500 text-lg">Большинство курсов учат нажимать кнопки. Здесь вы учитесь <strong class="text-gray-800">решать задачи</strong> — те самые, которые стоят перед инженерами в реальных строительных компаниях.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="comparison-card border-gray-300 bg-gray-50 rounded-2xl p-8 fade-in">
+                <div class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-6">Обычные курсы</div>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#9CA3AF" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <span class="text-gray-500">Абстрактные примеры, далёкие от практики</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#9CA3AF" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <span class="text-gray-500">Показывают функции без контекста</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#9CA3AF" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <span class="text-gray-500">Сложный инженерный язык</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#9CA3AF" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <span class="text-gray-500">Автопроверка или без проверки</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="comparison-card border-blue-500 bg-blue-50 rounded-2xl p-8 fade-in">
+                <div class="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-6">Наш подход</div>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#1A56DB" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span class="text-gray-700">Реальные строительные проекты</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#1A56DB" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span class="text-gray-700">Объясняем процессы, а не только кнопки</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#1A56DB" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span class="text-gray-700">Сложное — простым и понятным языком</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="mt-1 flex-shrink-0" width="20" height="20" fill="none" stroke="#1A56DB" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span class="text-gray-700">Автор лично проверяет ваши работы</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center mt-10 fade-in">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 font-medium rounded-full px-6 py-3 text-sm">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" transform="scale(0.75)"></path></svg>
+                Программа построена на запросах реальных строительных компаний
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПРОГРАММЫ -->
+<section id="programs" class="py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Выберите свой инструмент</h2>
+            <p class="text-gray-500 text-lg max-w-xl mx-auto">Каждый курс — отдельный навык. Покупайте только то, что нужно именно вам.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Revit -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in relative overflow-hidden">
+                <div class="absolute top-4 right-4">
+                    <span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full">Бесплатные уроки</span>
+                </div>
+                <div class="program-icon mb-5" style="background: linear-gradient(135deg, #1A56DB, #3B82F6);">
+                    <span>RVT</span>
+                </div>
+                <h3 class="font-bold text-xl mb-2">Revit</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">Создавайте полноценные BIM‑модели зданий — от фундамента до кровли.</p>
+                <div class="flex items-center gap-1.5 mb-5">
+                    <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded">Базовый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded">Продвинутый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded">Проф</span>
+                </div>
+                <a href="#" class="block text-center accent-btn text-white font-semibold py-3 rounded-xl text-sm">Подробнее</a>
+            </div>
+            <!-- Renga -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in">
+                <div class="program-icon mb-5" style="background: linear-gradient(135deg, #059669, #34D399);">
+                    <span>RNG</span>
+                </div>
+                <h3 class="font-bold text-xl mb-2">Renga</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">Освойте российскую BIM‑систему для архитектурно‑строительного проектирования.</p>
+                <div class="flex items-center gap-1.5 mb-5">
+                    <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded">Базовый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded">Продвинутый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded">Проф</span>
+                </div>
+                <a href="#" class="block text-center accent-btn text-white font-semibold py-3 rounded-xl text-sm">Подробнее</a>
+            </div>
+            <!-- AutoCAD -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in">
+                <div class="program-icon mb-5" style="background: linear-gradient(135deg, #DC2626, #F87171);">
+                    <span>CAD</span>
+                </div>
+                <h3 class="font-bold text-xl mb-2">AutoCAD</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">Уверенно работайте с&nbsp;2D‑чертежами и документацией в&nbsp;самом распространённом CAD.</p>
+                <div class="flex items-center gap-1.5 mb-5">
+                    <span class="bg-red-100 text-red-700 text-xs font-semibold px-2 py-0.5 rounded">Базовый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-red-100 text-red-700 text-xs font-semibold px-2 py-0.5 rounded">Продвинутый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-red-100 text-red-700 text-xs font-semibold px-2 py-0.5 rounded">Проф</span>
+                </div>
+                <a href="#" class="block text-center accent-btn text-white font-semibold py-3 rounded-xl text-sm">Подробнее</a>
+            </div>
+            <!-- ArchiCAD -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in">
+                <div class="program-icon mb-5" style="background: linear-gradient(135deg, #7C3AED, #A78BFA);">
+                    <span>ARC</span>
+                </div>
+                <h3 class="font-bold text-xl mb-2">ArchiCAD</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">Проектируйте здания в&nbsp;ArchiCAD — от концепции до рабочей документации.</p>
+                <div class="flex items-center gap-1.5 mb-5">
+                    <span class="bg-purple-100 text-purple-700 text-xs font-semibold px-2 py-0.5 rounded">Базовый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-purple-100 text-purple-700 text-xs font-semibold px-2 py-0.5 rounded">Продвинутый</span>
+                    <svg width="12" height="12" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="5 1 10 6 5 11" transform="scale(0.9)"></polyline></svg>
+                    <span class="bg-purple-100 text-purple-700 text-xs font-semibold px-2 py-0.5 rounded">Проф</span>
+                </div>
+                <a href="#" class="block text-center accent-btn text-white font-semibold py-3 rounded-xl text-sm">Подробнее</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- МЕТОДОЛОГИЯ -->
+<section id="method" class="py-16 md:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-14 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Как проходит обучение</h2>
+            <p class="text-gray-500 text-lg max-w-xl mx-auto">Четыре шага от первого урока до уверенного владения инструментом</p>
+        </div>
+        <div class="max-w-2xl mx-auto space-y-10">
+            <!-- Step 1 -->
+            <div class="flex items-start gap-6 fade-in">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">1</div>
+                </div>
+                <div class="pt-1">
+                    <h3 class="font-bold text-xl mb-2">Смотрите видеоуроки</h3>
+                    <p class="text-gray-500 leading-relaxed">Короткие, структурированные уроки. Каждый посвящён конкретной задаче, а не абстрактной теории. Учитесь в своём темпе, в удобное время.</p>
+                </div>
+            </div>
+            <!-- Step 2 -->
+            <div class="flex items-start gap-6 fade-in">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">2</div>
+                </div>
+                <div class="pt-1">
+                    <h3 class="font-bold text-xl mb-2">Изучаете методические материалы</h3>
+                    <p class="text-gray-500 leading-relaxed">К каждому блоку — текстовые материалы с пояснениями. Проще и нагляднее — удобно возвращаться и повторять.</p>
+                </div>
+            </div>
+            <!-- Step 3 -->
+            <div class="flex items-start gap-6 fade-in">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-400 flex items-center justify-center text-white font-bold text-lg shadow-lg">3</div>
+                </div>
+                <div class="pt-1">
+                    <h3 class="font-bold text-xl mb-2">Применяете на практике</h3>
+                    <p class="text-gray-500 leading-relaxed">Выполняете задания на основе реальных строительных проектов. Лучший формат — применять знания сразу в ваших рабочих задачах.</p>
+                </div>
+            </div>
+            <!-- Step 4 -->
+            <div class="flex items-start gap-6 fade-in">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-300 flex items-center justify-center text-white font-bold text-lg shadow-lg">4</div>
+                </div>
+                <div class="pt-1">
+                    <h3 class="font-bold text-xl mb-2">Получаете обратную связь</h3>
+                    <p class="text-gray-500 leading-relaxed">Автор курса лично проверяет ваши работы и даёт рекомендации. Это не автопроверка — это живая экспертиза.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Акцент -->
+        <div class="max-w-2xl mx-auto mt-12 fade-in">
+            <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 flex items-start gap-4">
+                <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg width="20" height="20" fill="none" stroke="#1A56DB" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" transform="scale(0.83)"></path><circle cx="10" cy="7.5" r="2" transform="scale(0.83)"></circle></svg>
+                </div>
+                <p class="text-gray-700 leading-relaxed">
+                    Вы учитесь <strong>самостоятельно</strong>, но <strong>не в одиночку</strong>. Автор курса — ваш куратор на всём пути обучения.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- РЕЗУЛЬТАТЫ -->
+<section class="py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-14 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Что изменится после обучения</h2>
+        </div>
+        <div class="max-w-3xl mx-auto space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in">
+                <div class="bg-gray-100 rounded-xl p-5 flex items-start gap-3">
+                    <span class="text-red-400 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </span>
+                    <span class="text-gray-500">Неуверенность в каждом шаге</span>
+                </div>
+                <div class="bg-green-50 rounded-xl p-5 flex items-start gap-3 border border-green-100">
+                    <span class="text-green-500 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    <span class="text-gray-700 font-medium">Чёткое понимание процесса от А до Я</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in">
+                <div class="bg-gray-100 rounded-xl p-5 flex items-start gap-3">
+                    <span class="text-red-400 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </span>
+                    <span class="text-gray-500">Медленная работа, много переделок</span>
+                </div>
+                <div class="bg-green-50 rounded-xl p-5 flex items-start gap-3 border border-green-100">
+                    <span class="text-green-500 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    <span class="text-gray-700 font-medium">Быстрое проектирование, меньше ошибок</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in">
+                <div class="bg-gray-100 rounded-xl p-5 flex items-start gap-3">
+                    <span class="text-red-400 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </span>
+                    <span class="text-gray-500">Ограниченный набор вакансий</span>
+                </div>
+                <div class="bg-green-50 rounded-xl p-5 flex items-start gap-3 border border-green-100">
+                    <span class="text-green-500 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    <span class="text-gray-700 font-medium">Соответствие требованиям сильных команд</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in">
+                <div class="bg-gray-100 rounded-xl p-5 flex items-start gap-3">
+                    <span class="text-red-400 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </span>
+                    <span class="text-gray-500">Разрозненные знания из YouTube</span>
+                </div>
+                <div class="bg-green-50 rounded-xl p-5 flex items-start gap-3 border border-green-100">
+                    <span class="text-green-500 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    <span class="text-gray-700 font-medium">Системное владение инструментом</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in">
+                <div class="bg-gray-100 rounded-xl p-5 flex items-start gap-3">
+                    <span class="text-red-400 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </span>
+                    <span class="text-gray-500">Зарплата на текущем уровне</span>
+                </div>
+                <div class="bg-green-50 rounded-xl p-5 flex items-start gap-3 border border-green-100">
+                    <span class="text-green-500 mt-0.5 flex-shrink-0">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    <span class="text-gray-700 font-medium">Навыки, за которые платят больше</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 fade-in">
+            <p class="text-gray-600 text-lg max-w-xl mx-auto mb-8">Вы не просто «пройдёте курс» — вы выйдете с навыками, которые реально требует строительный рынок прямо сейчас.</p>
+            <a href="#programs" class="accent-btn text-white font-semibold px-8 py-4 rounded-xl inline-block text-lg">Выбрать курс</a>
+        </div>
+    </div>
+</section>
+
+<!-- ЭКСПЕРТ -->
+<section id="expert" class="py-16 md:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-4 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Кто ведёт курсы</h2>
+        </div>
+        <div class="max-w-3xl mx-auto fade-in">
+            <div class="bg-gray-50 rounded-3xl p-8 md:p-12">
+                <div class="flex flex-col md:flex-row items-start gap-8">
+                    <!-- Avatar placeholder -->
+                    <div class="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center flex-shrink-0 shadow-lg">
+                        <svg width="64" height="64" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M32 28a10 10 0 100-20 10 10 0 000 20z"></path><path d="M12 54c0-11 9-20 20-20s20 9 20 20"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-1">Автор и преподаватель</h3>
+                        <p class="text-blue-600 font-medium mb-5">Специалист по внедрению BIM</p>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg width="16" height="16" fill="none" stroke="#1A56DB" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" transform="scale(0.67)"></rect><line x1="10.7" y1="2.7" x2="10.7" y2="4" transform="scale(0.67)"></line><line x1="4" y1="8" x2="14" y2="8" transform="scale(0.67)"></line></svg>
+                                </div>
+                                <span class="text-gray-700"><strong>11 лет</strong> преподавательского стажа</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg width="16" height="16" fill="none" stroke="#EAB308" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" transform="scale(0.67)"></polygon></svg>
+                                </div>
+                                <span class="text-gray-700"><strong>Лучший преподаватель</strong> политехнического университета</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg width="16" height="16" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" transform="scale(0.67)"></path></svg>
+                                </div>
+                                <span class="text-gray-700">Опыт <strong>внедрения BIM</strong> на предприятиях</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg width="16" height="16" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v10" transform="scale(0.67)"></path><path d="M22 3h-6a4 4 0 00-4 4v10" transform="scale(0.67)"></path></svg>
+                                </div>
+                                <span class="text-gray-700"><strong>Жилые и промышленные</strong> объекты</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg width="16" height="16" fill="none" stroke="#DC2626" stroke-width="2"><polyline points="20 6 9 17 4 12" transform="scale(0.67)"></polyline></svg>
+                                </div>
+                                <span class="text-gray-700"><strong>Лично проверяет</strong> работы каждого ученика</span>
+                            </div>
+                        </div>
+                        <blockquote class="border-l-4 border-blue-500 pl-5 py-2 italic text-gray-600 leading-relaxed">
+                            «Я не учу нажимать кнопки. Я учу понимать процессы — так, чтобы вы могли решить любую задачу, даже ту, которую мы не разбирали на курсе.»
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Что говорят ученики</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in">
+                <div class="flex gap-1 mb-4">
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-5">«Наконец-то понял, как работает Revit целиком, а не отдельными кусками. Уроки разложили всё по полочкам. Теперь проектирую без постоянного гугла.»</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600 text-sm">АК</div>
+                    <div>
+                        <div class="font-semibold text-sm">Алексей К.</div>
+                        <div class="text-gray-400 text-xs">Инженер-проектировщик</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in">
+                <div class="flex gap-1 mb-4">
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-5">«Начинала с нуля, боялась, что не разберусь. Но подача настолько понятная, что уже через месяц начала применять знания на работе. Рекомендую всем!»</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center font-bold text-green-600 text-sm">МС</div>
+                    <div>
+                        <div class="font-semibold text-sm">Мария С.</div>
+                        <div class="text-gray-400 text-xs">Начинающий специалист</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm card-hover fade-in">
+                <div class="flex gap-1 mb-4">
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                    <svg width="18" height="18" fill="#FBBF24" stroke="none"><polygon points="9 1 11.5 6.5 17 7.1 13 10.9 14 16.5 9 13.8 4 16.5 5 10.9 1 7.1 6.5 6.5"></polygon></svg>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-5">«Работаю в проектном бюро 5 лет, думал, что знаю Revit. Оказалось, можно работать в разы эффективнее. Курс окупился за первый же проект.»</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center font-bold text-purple-600 text-sm">ДВ</div>
+                    <div>
+                        <div class="font-semibold text-sm">Дмитрий В.</div>
+                        <div class="text-gray-400 text-xs">BIM-специалист</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПУТЬ РАЗВИТИЯ -->
+<section class="py-16 md:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-14 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Ваш путь в BIM</h2>
+        </div>
+        <div class="max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-blue-50 rounded-2xl p-8 text-center card-hover fade-in border-2 border-blue-100">
+                    <div class="w-16 h-16 rounded-full bg-blue-600 text-white font-extrabold text-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">1</div>
+                    <h3 class="font-bold text-xl mb-3 text-blue-900">Базовый</h3>
+                    <p class="text-gray-600">Понимаете основы и интерфейс программы. Создаёте первые проекты.</p>
+                    <div class="mt-4">
+                        <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">Бесплатный старт</span>
+                    </div>
+                </div>
+                <div class="bg-blue-50 rounded-2xl p-8 text-center card-hover fade-in border-2 border-blue-200 relative">
+                    <div class="hidden md:block absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <svg width="24" height="24" fill="none" stroke="#3B82F6" stroke-width="2"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                    </div>
+                    <div class="w-16 h-16 rounded-full bg-blue-600 text-white font-extrabold text-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">2</div>
+                    <h3 class="font-bold text-xl mb-3 text-blue-900">Продвинутый</h3>
+                    <p class="text-gray-600">Решаете сложные задачи и ведёте проекты самостоятельно.</p>
+                </div>
+                <div class="bg-blue-50 rounded-2xl p-8 text-center card-hover fade-in border-2 border-blue-300 relative">
+                    <div class="hidden md:block absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <svg width="24" height="24" fill="none" stroke="#3B82F6" stroke-width="2"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                    </div>
+                    <div class="w-16 h-16 rounded-full bg-blue-600 text-white font-extrabold text-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">3</div>
+                    <h3 class="font-bold text-xl mb-3 text-blue-900">Профессиональный</h3>
+                    <p class="text-gray-600">Работаете на уровне ведущего специалиста. Максимальная эффективность.</p>
+                </div>
+            </div>
+            <div class="text-center fade-in">
+                <p class="text-gray-500 text-lg max-w-xl mx-auto">Не нужно покупать всё сразу. Начните с бесплатной части базового курса — и двигайтесь дальше, когда будете готовы.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12 fade-in">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Частые вопросы</h2>
+        </div>
+        <div class="max-w-2xl mx-auto space-y-3">
+            <div class="bg-white rounded-xl shadow-sm fade-in">
+                <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between" onclick="toggleFaq(this)">
+                    <span class="font-semibold pr-4">У меня нет опыта в BIM. Мне подойдёт?</span>
+                    <svg class="faq-chevron flex-shrink-0" width="20" height="20" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="faq-answer px-6 text-gray-500 leading-relaxed">
+                    Да. Базовые курсы начинаются с нуля. Вы разберётесь, даже если никогда не открывали программу. Начните с бесплатной части — убедитесь сами.
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm fade-in">
+                <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between" onclick="toggleFaq(this)">
+                    <span class="font-semibold pr-4">Чем это отличается от бесплатных уроков на YouTube?</span>
+                    <svg class="faq-chevron flex-shrink-0" width="20" height="20" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="faq-answer px-6 text-gray-500 leading-relaxed">
+                    Бесплатные ролики дают фрагментарные знания. Здесь — выстроенная система: от простого к сложному, через реальные проекты, с проверкой работ автором. Это разница между «посмотрел» и «научился».
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm fade-in">
+                <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between" onclick="toggleFaq(this)">
+                    <span class="font-semibold pr-4">Я опытный специалист. Будет ли мне полезно?</span>
+                    <svg class="faq-chevron flex-shrink-0" width="20" height="20" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="faq-answer px-6 text-gray-500 leading-relaxed">
+                    Если чувствуете, что работаете «по привычке» и не используете возможности программы на полную — да. Продвинутые и профессиональные уровни закрывают именно это.
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm fade-in">
+                <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between" onclick="toggleFaq(this)">
+                    <span class="font-semibold pr-4">Сколько времени занимает обучение?</span>
+                    <svg class="faq-chevron flex-shrink-0" width="20" height="20" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="faq-answer px-6 text-gray-500 leading-relaxed">
+                    Вы учитесь в своём темпе. Доступ к урокам не ограничен по времени. Большинство учеников совмещают курсы с основной работой.
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm fade-in">
+                <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between" onclick="toggleFaq(this)">
+                    <span class="font-semibold pr-4">Выдаётся ли сертификат?</span>
+                    <svg class="faq-chevron flex-shrink-0" width="20" height="20" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="faq-answer px-6 text-gray-500 leading-relaxed">
+                    Да, после прохождения курса вы получаете сертификат, подтверждающий ваши навыки.
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm fade-in">
+                <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between" onclick="toggleFaq(this)">
+                    <span class="font-semibold pr-4">Как оплатить курс?</span>
+                    <svg class="faq-chevron flex-shrink-0" width="20" height="20" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="faq-answer px-6 text-gray-500 leading-relaxed">
+                    Каждый курс приобретается отдельно — вы платите только за тот навык, который вам нужен. Никаких подписок и обязательных пакетов.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ФИНАЛЬНЫЙ CTA -->
+<section id="final-cta" class="py-16 md:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center fade-in">
+            <div class="hero-gradient rounded-3xl p-10 md:p-16 relative overflow-hidden">
+                <div class="blob-bg" style="width:300px;height:300px;background:#3B82F6;top:-100px;right:-50px;opacity:0.2;"></div>
+                <div class="blob-bg" style="width:250px;height:250px;background:#1A56DB;bottom:-80px;left:-50px;opacity:0.2;"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-5">Начните с бесплатного урока — и&nbsp;решите сами</h2>
+                    <p class="text-blue-200 text-lg mb-8 max-w-lg mx-auto">Не нужно верить на слово. Посмотрите бесплатную часть базового курса, оцените подачу и формат — и примите решение.</p>
+                    <a href="#" class="inline-block bg-white text-blue-700 font-bold px-10 py-4 rounded-xl text-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                        Начать бесплатно
+                    </a>
+                    <p class="text-blue-300 text-sm mt-5">Без подписок · Без обязательств · Просто попробуйте</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg accent-btn flex items-center justify-center">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </div>
+                <span class="font-bold text-gray-700">BIM-курсы</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-gray-400">
+                <a href="#programs" class="hover:text-gray-600 transition">Курсы</a>
+                <a href="#method" class="hover:text-gray-600 transition">Методология</a>
+                <a href="#expert" class="hover:text-gray-600 transition">Преподаватель</a>
+                <a href="#faq" class="hover:text-gray-600 transition">FAQ</a>
+            </div>
+            <div class="text-sm text-gray-400">
+                © 2026 ИП Шавва. Все права защищены.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Sticky header
+    const header = document.getElementById('header');
+    const logoText = document.getElementById('logo-text');
+    const navLinks = document.querySelectorAll('#nav1, #nav2, #nav3, #nav4');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+            header.classList.add('scrolled');
+            logoText.classList.remove('text-white');
+            logoText.classList.add('text-gray-800');
+            navLinks.forEach(link => {
+                link.classList.remove('text-white');
+                link.classList.add('text-gray-600');
+            });
+            menuBtn.classList.remove('text-white');
+            menuBtn.classList.add('text-gray-800');
+        } else {
+            header.classList.remove('scrolled');
+            logoText.classList.add('text-white');
+            logoText.classList.remove('text-gray-800');
+            navLinks.forEach(link => {
+                link.classList.add('text-white');
+                link.classList.remove('text-gray-600');
+            });
+            menuBtn.classList.add('text-white');
+            menuBtn.classList.remove('text-gray-800');
+        }
+    });
+
+    // Mobile menu
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    }
+    function closeMobileMenu() {
+        document.getElementById('mobile-menu').classList.add('hidden');
+    }
+
+    // FAQ accordion
+    function toggleFaq(btn) {
+        const answer = btn.nextElementSibling;
+        const chevron = btn.querySelector('.faq-chevron');
+        const isOpen = answer.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+        document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('rotated'));
+
+        if (!isOpen) {
+            answer.classList.add('open');
+            chevron.classList.add('rotated');
+        }
+    }
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+
+
+</body></html>
